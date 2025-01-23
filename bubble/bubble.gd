@@ -8,6 +8,14 @@ var _body_parent: Node
 var _save_layer: int
 var _save_mask: int
 
+func _ready() -> void:
+	var tree = get_tree();
+	await tree.physics_frame;
+	await tree.physics_frame;
+	if not body_inside:
+		collision_mask = 5;
+	# TODO: bad approach, maybe fix later
+
 func _physics_process(delta: float) -> void:
 	if body_inside:
 		velocity = -get_gravity() * delta * INSIDE_FLOATING_MODIFIER

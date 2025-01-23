@@ -17,14 +17,18 @@ func _state_process_d(delta: float) -> void:
 	player.global_position = player.global_position.move_toward(player.cell, SPEED * delta) 
 	if Input.is_action_just_pressed("Left"):
 		player.direction = Vector2.LEFT;
-		if not left_detector.get_overlapping_bodies():
+		if _detect_obstacle(left_detector):
 			_create_buble();
 		return;
 	if Input.is_action_just_pressed("Right"):
 		player.direction = Vector2.RIGHT;
-		if not right_detector.get_overlapping_bodies():
+		if _detect_obstacle(right_detector):
 			_create_buble();
 		return;
+
+func _detect_obstacle(detector: Area2D):
+	return not detector.get_overlapping_areas()\
+			.filter(func(body): return body is not Body or not body.bubble);
 
 func _create_buble():
 	var buble: Node2D = BUBBLE.instantiate()
