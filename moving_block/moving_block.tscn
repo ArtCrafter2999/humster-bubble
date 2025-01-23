@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://bccly22bg37pr"]
+
+[ext_resource type="Script" path="res://moving_block/moving_block.gd" id="1_gogki"]
+[ext_resource type="Texture2D" uid="uid://cvieealgopg7y" path="res://moving_block/block.jpg" id="2_48vqc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nt8v5"]
+size = Vector2(19.9, 19.9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6liq7"]
+size = Vector2(19.8, 19.9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7r1e"]
+size = Vector2(19, 19)
+
+[node name="MovingBlock" type="CharacterBody2D" node_paths=PackedStringArray("collision")]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_gogki")
+collision = NodePath("CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_48vqc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nt8v5")
+
+[node name="LeftDetector" type="Area2D" parent="."]
+position = Vector2(-20, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftDetector"]
+shape = SubResource("RectangleShape2D_6liq7")
+debug_color = Color(0.741176, 0.466667, 0, 0.188235)
+
+[node name="RightDetector" type="Area2D" parent="."]
+position = Vector2(20, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightDetector"]
+shape = SubResource("RectangleShape2D_w7r1e")
+debug_color = Color(1, 1, 1, 0.168627)

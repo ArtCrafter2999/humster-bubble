@@ -1,0 +1,111 @@
+[gd_scene load_steps=12 format=3 uid="uid://dy86cfp21fglb"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_ubecj"]
+[ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_3ibd4"]
+[ext_resource type="Script" path="res://player/states/move_state.gd" id="3_rslrj"]
+[ext_resource type="Script" path="res://player/states/before_push_state.gd" id="4_n2g12"]
+[ext_resource type="Texture2D" uid="uid://dcfgwkrngfmbo" path="res://player/player.png" id="4_ngydh"]
+[ext_resource type="Script" path="res://player/states/push_state.gd" id="4_roucd"]
+[ext_resource type="Script" path="res://player/states/create_bubble_state.gd" id="6_djf1f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_an00v"]
+size = Vector2(19.9, 19.9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k41v"]
+size = Vector2(19.9, 19.9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7lsg"]
+size = Vector2(10, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agf2w"]
+size = Vector2(2, 18.5)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("collision")]
+position = Vector2(209, 130)
+collision_layer = 2
+collision_mask = 3
+floor_max_angle = 0.0
+script = ExtResource("1_ubecj")
+collision = NodePath("CollisionShape2D")
+metadata/_edit_group_ = true
+
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
+script = ExtResource("2_3ibd4")
+begining_state = NodePath("MoveState")
+
+[node name="MoveState" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("push_state", "buble_state")]
+script = ExtResource("3_rslrj")
+push_state = NodePath("../BeforePushState")
+buble_state = NodePath("../CreateBubbleState")
+
+[node name="BeforePushState" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("cancel_state", "push_state")]
+script = ExtResource("4_n2g12")
+cancel_state = NodePath("../MoveState")
+push_state = NodePath("../PushState")
+
+[node name="PushTimer" type="Timer" parent="StateMachine/BeforePushState"]
+wait_time = 0.15
+
+[node name="PushState" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("after_push_state")]
+script = ExtResource("4_roucd")
+after_push_state = NodePath("../MoveState")
+
+[node name="CreateBubbleState" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("after_buble_state")]
+script = ExtResource("6_djf1f")
+after_buble_state = NodePath("../MoveState")
+
+[node name="LeftDetector" type="Area2D" parent="StateMachine/CreateBubbleState"]
+position = Vector2(-20, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/CreateBubbleState/LeftDetector"]
+shape = SubResource("RectangleShape2D_an00v")
+debug_color = Color(0.741176, 0.466667, 0, 0.188235)
+
+[node name="RightDetector" type="Area2D" parent="StateMachine/CreateBubbleState"]
+position = Vector2(20, 0)
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/CreateBubbleState/RightDetector"]
+shape = SubResource("RectangleShape2D_7k41v")
+debug_color = Color(0.741176, 0.466667, 0, 0.188235)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("4_ngydh")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-5, -9.75, -9.75, -5, -9.75, 9, -9, 9.75, 9, 9.75, 9.75, 9, 9.75, -5, 5, -9.75)
+
+[node name="CeilingDetector" type="Area2D" parent="."]
+position = Vector2(0, -11.1)
+collision_layer = 0
+collision_mask = 3
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CeilingDetector"]
+shape = SubResource("RectangleShape2D_k7lsg")
+debug_color = Color(0.739703, 0.466833, 0, 0.42)
+
+[node name="LeftDetector" type="Area2D" parent="."]
+position = Vector2(-11.1, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftDetector"]
+shape = SubResource("RectangleShape2D_agf2w")
+debug_color = Color(0.739703, 0.466833, 0, 0.42)
+
+[node name="RightDetector" type="Area2D" parent="."]
+position = Vector2(11.1, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightDetector"]
+shape = SubResource("RectangleShape2D_agf2w")
+debug_color = Color(0.739703, 0.466833, 0, 0.42)
+
+[connection signal="timeout" from="StateMachine/BeforePushState/PushTimer" to="StateMachine/BeforePushState" method="_on_push_timer_timeout"]

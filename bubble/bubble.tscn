@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1rk1hpmb8a61"]
+
+[ext_resource type="Texture2D" uid="uid://b7g6mcrquw6rn" path="res://bubble/bubble.png" id="1_8cx6m"]
+[ext_resource type="Script" path="res://bubble/bubble.gd" id="1_wf65x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5o3wb"]
+size = Vector2(19, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cfpc3"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rpq25"]
+size = Vector2(19, 19)
+
+[node name="Bubble" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_wf65x")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+z_index = 10
+texture = ExtResource("1_8cx6m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5o3wb")
+debug_color = Color(1, 1, 1, 0.168627)
+
+[node name="ObjectDetector" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObjectDetector"]
+shape = SubResource("RectangleShape2D_cfpc3")
+debug_color = Color(1, 1, 1, 0.168627)
+
+[node name="Detector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+shape = SubResource("RectangleShape2D_rpq25")
+debug_color = Color(1, 1, 1, 0.168627)
+
+[connection signal="body_entered" from="ObjectDetector" to="." method="_on_object_detector_body_entered"]
+[connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]
