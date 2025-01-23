@@ -4,16 +4,17 @@
 [ext_resource type="Script" path="res://bubble/bubble.gd" id="1_wf65x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5o3wb"]
-size = Vector2(19, 19)
+size = Vector2(15.8, 15.8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cfpc3"]
 size = Vector2(1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpq25"]
-size = Vector2(19, 19)
+size = Vector2(15.8, 15.8)
 
 [node name="Bubble" type="CharacterBody2D"]
 collision_layer = 4
+collision_mask = 5
 script = ExtResource("1_wf65x")
 
 [node name="Sprite" type="Sprite2D" parent="."]

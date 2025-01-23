@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1whs6ffrqdwp"]
+
+[ext_resource type="Texture2D" uid="uid://cecnqbuf6mp2v" path="res://puzzle_platformer_kit/puzzle_tileset.png" id="1_756b4"]
+[ext_resource type="Script" path="res://button/button.gd" id="1_camds"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5lkhl"]
+size = Vector2(8, 4)
+
+[node name="Button" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_camds")
+
+[node name="SpriteUnpressed" type="Sprite2D" parent="."]
+texture = ExtResource("1_756b4")
+hframes = 8
+vframes = 4
+frame = 3
+
+[node name="SpritePressed" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("1_756b4")
+hframes = 8
+vframes = 4
+frame = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_5lkhl")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

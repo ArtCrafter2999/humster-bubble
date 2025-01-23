@@ -1,7 +1,7 @@
 extends StateBase
 
-const SPEED = 80.0
-const JUMP_FORCE = 200.0
+const SPEED = 64.0
+const JUMP_FORCE = 190.0
 
 @export var push_state: StateBase
 @export var buble_state: StateBase
@@ -14,6 +14,7 @@ var _is_ceiled = false;
 @onready var ceiling_detector: Area2D = $"../../CeilingDetector"
 @onready var floor_detector: Area2D = $FloorDetector
 @onready var push_timer: Timer = $PushTimer
+@onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 
 func _state_physics_process_d(delta: float) -> void:
 	var is_falling = player.fall(delta)
@@ -26,19 +27,22 @@ func _state_physics_process_d(delta: float) -> void:
 	
 	var axis := Input.get_axis("Left", "Right")
 	if axis:
+		if animation_player.current_animation.get_basename() != "walk":
+			animation_player.play("walk")
 		if axis < 0:
 			_try_push(Vector2.LEFT, left_detector)
 		if axis > 0:
 			_try_push(Vector2.RIGHT, right_detector)
 		player.velocity.x = axis * SPEED
 	else:
+		if animation_player.current_animation.get_basename() != "idle":
+			animation_player.play("idle")
 		player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
 	
 	if(round(axis)):
 		player.direction = Vector2(round(axis), 0);
-		
-	print(is_falling, player.is_in_bubble)
-	if (not is_falling or player.is_in_bubble) and Input.is_action_just_pressed("Bubble"):
+	
+	if (not is_falling or player.bubble) and Input.is_action_just_pressed("Bubble"):
 		machine.change_state(buble_state)
 
 	player.move_and_slide()

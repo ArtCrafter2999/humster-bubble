@@ -1,32 +1,86 @@
-[gd_scene load_steps=12 format=3 uid="uid://dy86cfp21fglb"]
+[gd_scene load_steps=16 format=3 uid="uid://dy86cfp21fglb"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_ubecj"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_3ibd4"]
 [ext_resource type="Script" path="res://player/states/move_state.gd" id="3_rslrj"]
 [ext_resource type="Script" path="res://player/states/before_push_state.gd" id="4_n2g12"]
-[ext_resource type="Texture2D" uid="uid://dcfgwkrngfmbo" path="res://player/player.png" id="4_ngydh"]
 [ext_resource type="Script" path="res://player/states/push_state.gd" id="4_roucd"]
 [ext_resource type="Script" path="res://player/states/create_bubble_state.gd" id="6_djf1f"]
+[ext_resource type="Script" path="res://player/states/inside_bubble_state.gd" id="7_kuj8y"]
+[ext_resource type="Texture2D" uid="uid://ddjg1h66fj3kw" path="res://puzzle_platformer_kit/sprite_sheet.png" id="7_vgg4t"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_an00v"]
-size = Vector2(19.9, 19.9)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_386yk"]
+size = Vector2(15.5, 15.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k41v"]
-size = Vector2(19.9, 19.9)
+[sub_resource type="Animation" id="Animation_w2oeg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tjlr1"]
+resource_name = "idle"
+length = 1.00005
+loop_mode = 2
+step = 0.333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.333333, 0.666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_um8sr"]
+resource_name = "walk"
+length = 0.166675
+loop_mode = 2
+step = 0.0833333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0833333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w85h5"]
+_data = {
+"RESET": SubResource("Animation_w2oeg"),
+"idle": SubResource("Animation_tjlr1"),
+"walk": SubResource("Animation_um8sr")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7lsg"]
-size = Vector2(10, 2)
+size = Vector2(8, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_agf2w"]
-size = Vector2(2, 18.5)
+size = Vector2(2, 14.8)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("collision")]
-position = Vector2(209, 130)
+[node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 3
 floor_max_angle = 0.0
 script = ExtResource("1_ubecj")
-collision = NodePath("CollisionShape2D")
 metadata/_edit_group_ = true
 
 [node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("begining_state")]
@@ -55,31 +109,42 @@ script = ExtResource("6_djf1f")
 after_buble_state = NodePath("../MoveState")
 
 [node name="LeftDetector" type="Area2D" parent="StateMachine/CreateBubbleState"]
-position = Vector2(-20, 0)
+position = Vector2(-16, 0)
 collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/CreateBubbleState/LeftDetector"]
-shape = SubResource("RectangleShape2D_an00v")
-debug_color = Color(0.741176, 0.466667, 0, 0.188235)
+shape = SubResource("RectangleShape2D_386yk")
 
 [node name="RightDetector" type="Area2D" parent="StateMachine/CreateBubbleState"]
-position = Vector2(20, 0)
+position = Vector2(16, 0)
 collision_layer = 0
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StateMachine/CreateBubbleState/RightDetector"]
-shape = SubResource("RectangleShape2D_7k41v")
-debug_color = Color(0.741176, 0.466667, 0, 0.188235)
+shape = SubResource("RectangleShape2D_386yk")
+
+[node name="InsideBubbleState" type="Node2D" parent="StateMachine"]
+script = ExtResource("7_kuj8y")
+
+[node name="GetOutTimer" type="Timer" parent="StateMachine/InsideBubbleState"]
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("4_ngydh")
+texture = ExtResource("7_vgg4t")
+hframes = 3
+vframes = 2
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_w85h5")
+}
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-5, -9.75, -9.75, -5, -9.75, 9, -9, 9.75, 9, 9.75, 9.75, 9, 9.75, -5, 5, -9.75)
+polygon = PackedVector2Array(-4, -7.8, -7.8, -7.2, -7.8, 7.2, -7.2, 7.8, 7.2, 7.8, 7.8, 7.2, 7.8, -7.2, 4, -7.8)
 
 [node name="CeilingDetector" type="Area2D" parent="."]
-position = Vector2(0, -11.1)
+position = Vector2(0, -8.88)
 collision_layer = 0
 collision_mask = 3
 monitorable = false
@@ -89,7 +154,7 @@ shape = SubResource("RectangleShape2D_k7lsg")
 debug_color = Color(0.739703, 0.466833, 0, 0.42)
 
 [node name="LeftDetector" type="Area2D" parent="."]
-position = Vector2(-11.1, 0)
+position = Vector2(-8.88, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
@@ -99,7 +164,7 @@ shape = SubResource("RectangleShape2D_agf2w")
 debug_color = Color(0.739703, 0.466833, 0, 0.42)
 
 [node name="RightDetector" type="Area2D" parent="."]
-position = Vector2(11.1, 0)
+position = Vector2(8.88, 0)
 collision_layer = 0
 collision_mask = 2
 monitorable = false

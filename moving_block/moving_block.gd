@@ -23,15 +23,19 @@ func check_push(direction: Vector2):
 		return _check_push(right_detector)
 
 func _check_push(detector: Area2D):
-	print(position, is_on_floor(), detector.get_overlapping_bodies())
-	return is_on_floor() and !detector.get_overlapping_bodies()
+	if bubble and detector.get_overlapping_bodies():
+		bubble.pop();
+	return is_on_floor() or bubble
 
 func _push_direction(direction: Vector2, detector: Area2D):
+	if bubble: bubble.pop()
 	if detector.get_overlapping_bodies(): return;
 	var delta = 0
-	var target = position + direction * CELL_SIZE
+	var target = cell.x + direction.normalized().x * CELL_SIZE
 	var tree = get_tree()
-	while position != target:
+	while global_position.x != target:
 		await tree.physics_frame;
 		delta = get_physics_process_delta_time();
-		position = position.move_toward(target, SPEED * delta)
+		global_position.x = move_toward(global_position.x, target, SPEED * delta)
+	while not is_on_floor():
+		await tree.physics_frame;

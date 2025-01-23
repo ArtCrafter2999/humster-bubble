@@ -12,7 +12,7 @@ func _state_enter_c(context: Dictionary):
 		machine.change_state(after_push_state);
 
 func _state_physics_process_d(delta: float):
-	if Input.is_action_just_pressed("Jump"):
+	if Input.is_action_just_pressed("Jump") and player.is_on_floor():
 		player.reparent(player.parent);
 		if "jump" in after_push_state:
 			after_push_state.jump();
