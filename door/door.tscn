@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://bre8is2i1h5cy"]
+
+[ext_resource type="Script" path="res://door/door.gd" id="1_ypryn"]
+[ext_resource type="Texture2D" uid="uid://by383468nyk2j" path="res://sprites/tile_16x16.png" id="2_bl2x1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pn8m6"]
+size = Vector2(5, 5)
+
+[sub_resource type="Animation" id="Animation_h5xak"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(5, 7)]
+}
+
+[sub_resource type="Animation" id="Animation_wt5ib"]
+resource_name = "default"
+length = 0.10001
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(5, 7), Vector2i(6, 7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dj3ic"]
+_data = {
+"RESET": SubResource("Animation_h5xak"),
+"default": SubResource("Animation_wt5ib")
+}
+
+[node name="Door" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_ypryn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bl2x1")
+hframes = 8
+vframes = 8
+frame = 61
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pn8m6")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_dj3ic")
+}
+
+[node name="EnterSprite" type="Sprite2D" parent="."]
+visible = false
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

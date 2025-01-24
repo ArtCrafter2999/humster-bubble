@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cecnqbuf6mp2v"
-path="res://.godot/imported/puzzle_tileset.png-652f04c486b52aaeb9f8bc31c09669a6.ctex"
+uid="uid://dsqefgr1w124e"
+path="res://.godot/imported/charecter-Sheet.png-a70f845db6f861e7a3638163b3760134.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://puzzle_platformer_kit/puzzle_tileset.png"
-dest_files=["res://.godot/imported/puzzle_tileset.png-652f04c486b52aaeb9f8bc31c09669a6.ctex"]
+source_file="res://player/charecter-Sheet.png"
+dest_files=["res://.godot/imported/charecter-Sheet.png-a70f845db6f861e7a3638163b3760134.ctex"]
 
 [params]
 

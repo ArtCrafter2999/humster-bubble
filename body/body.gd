@@ -13,7 +13,7 @@ var cell: Vector2:
 	set(value):
 		global_position = value;
 
-func fall(delta):
+func fall(delta: float) -> bool:
 	if bubble: return true;
 	var is_falling = not is_on_floor()
 	if is_falling:

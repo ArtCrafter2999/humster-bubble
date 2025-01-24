@@ -1,7 +1,45 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1rk1hpmb8a61"]
+[gd_scene load_steps=10 format=3 uid="uid://c1rk1hpmb8a61"]
 
-[ext_resource type="Texture2D" uid="uid://b7g6mcrquw6rn" path="res://bubble/bubble.png" id="1_8cx6m"]
 [ext_resource type="Script" path="res://bubble/bubble.gd" id="1_wf65x"]
+[ext_resource type="Texture2D" uid="uid://dunjdo8cups1t" path="res://bubble/buble_24x24.png" id="2_gfb3d"]
+
+[sub_resource type="Animation" id="Animation_hvaso"]
+resource_name = "init"
+length = 0.20001
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_5yl5b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_61wkj"]
+_data = {
+"RESET": SubResource("Animation_5yl5b"),
+"init": SubResource("Animation_hvaso")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5o3wb"]
 size = Vector2(15.8, 15.8)
@@ -10,6 +48,9 @@ size = Vector2(15.8, 15.8)
 size = Vector2(1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpq25"]
+size = Vector2(15, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6meyk"]
 size = Vector2(15.8, 15.8)
 
 [node name="Bubble" type="CharacterBody2D"]
@@ -19,7 +60,14 @@ script = ExtResource("1_wf65x")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 z_index = 10
-texture = ExtResource("1_8cx6m")
+texture = ExtResource("2_gfb3d")
+hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_61wkj")
+}
+autoplay = "init"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5o3wb")
@@ -32,14 +80,23 @@ collision_mask = 3
 shape = SubResource("RectangleShape2D_cfpc3")
 debug_color = Color(1, 1, 1, 0.168627)
 
-[node name="Detector" type="Area2D" parent="."]
+[node name="ObstacleDetector" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 5
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObstacleDetector"]
 shape = SubResource("RectangleShape2D_rpq25")
 debug_color = Color(1, 1, 1, 0.168627)
 
+[node name="BubleDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BubleDetector"]
+shape = SubResource("RectangleShape2D_6meyk")
+debug_color = Color(1, 1, 1, 0.168627)
+
 [connection signal="body_entered" from="ObjectDetector" to="." method="_on_object_detector_body_entered"]
-[connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]
+[connection signal="body_entered" from="ObstacleDetector" to="." method="_on_detector_body_entered"]
+[connection signal="body_entered" from="BubleDetector" to="." method="_on_detector_body_entered"]

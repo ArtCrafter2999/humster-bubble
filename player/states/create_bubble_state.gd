@@ -3,18 +3,27 @@ class_name CreateBubbleState;
 
 const SPEED = 64.0
 const BUBBLE = preload("res://bubble/bubble.tscn")
-@export var after_buble_state: StateBase
+var state: StateBase;
 @onready var player: Player = $"../.."
 @onready var left_detector: Area2D = $LeftDetector
 @onready var right_detector: Area2D = $RightDetector
+@onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 
-func _state_process_d(delta: float) -> void:
-	if Input.is_action_just_released("Bubble") or \
-			Input.is_action_just_pressed("Jump") or \
-			(player.fall(delta) and not player.bubble):
-		machine.change_state(after_buble_state)
+func _state_enter_c(context: Dictionary):
+	state = context["return_state"]
+	animation_player.play("create_bubble")
+
+func _state_physics_process_d(delta: float) -> void:
+	var is_falling = player.fall(delta);
+	if (is_falling and not player.bubble) or \
+			Input.is_action_just_released("Bubble") or \
+			Input.is_action_just_pressed("Jump"): 
+		machine.change_state(state);
 		return;
-	player.global_position = player.global_position.move_toward(player.cell, SPEED * delta) 
+	if not player.bubble and player.global_position != player.cell:
+		player.global_position = player.global_position.move_toward(player.cell, SPEED * delta) 
+		return;
+
 	if Input.is_action_just_pressed("Left"):
 		player.direction = Vector2.LEFT;
 		if _detect_obstacle(left_detector):
