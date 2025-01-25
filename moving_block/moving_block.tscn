@@ -1,24 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://bccly22bg37pr"]
+[gd_scene load_steps=6 format=3 uid="uid://bccly22bg37pr"]
 
 [ext_resource type="Script" path="res://moving_block/moving_block.gd" id="1_gogki"]
 [ext_resource type="Texture2D" uid="uid://by383468nyk2j" path="res://sprites/tile_16x16.png" id="2_4pvce"]
+[ext_resource type="AudioStream" uid="uid://ck0qrdoghw5gv" path="res://audio/box_drop.wav" id="3_jt5rk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nt8v5"]
 size = Vector2(15.9, 15.9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6liq7"]
-size = Vector2(15.7, 15.7)
+size = Vector2(12, 15.7)
 
 [node name="MovingBlock" type="CharacterBody2D"]
 collision_layer = 3
+collision_mask = 9
 floor_max_angle = 0.0
 script = ExtResource("1_gogki")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_4pvce")
-hframes = 8
-vframes = 8
-frame = 47
+hframes = 16
+vframes = 16
+frame = 87
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_nt8v5")
@@ -42,3 +44,6 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightDetector"]
 shape = SubResource("RectangleShape2D_6liq7")
 debug_color = Color(0.741176, 0.466667, 0, 0.188235)
+
+[node name="DropAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_jt5rk")

@@ -53,6 +53,7 @@ Home={
 2d_physics/layer_1="Solid"
 2d_physics/layer_2="Body"
 2d_physics/layer_3="Buble"
+2d_physics/layer_4="Platform"
 
 [rendering]
 

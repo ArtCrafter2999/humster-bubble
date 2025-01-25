@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=4 uid="uid://bjpjcc0s4kjoa"]
+
+[ext_resource type="Script" path="res://levels/level.gd" id="1_4bein"]
+[ext_resource type="TileSet" uid="uid://nh2khwyrlcku" path="res://levels/tileset.tres" id="2_c63es"]
+[ext_resource type="PackedScene" uid="uid://dy86cfp21fglb" path="res://player/player.tscn" id="2_k823q"]
+[ext_resource type="PackedScene" uid="uid://bccly22bg37pr" path="res://moving_block/moving_block.tscn" id="3_20hnr"]
+[ext_resource type="PackedScene" uid="uid://b1whs6ffrqdwp" path="res://button/button.tscn" id="5_65kfn"]
+[ext_resource type="PackedScene" uid="uid://bre8is2i1h5cy" path="res://door/door.tscn" id="6_hq7lw"]
+[ext_resource type="PackedScene" uid="uid://bafnpcqga5xuu" path="res://levels/win_tile.tscn" id="6_tib35"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_4bein")
+size = Vector2i(7, 10)
+
+[node name="BgTilemaps" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAGAAkAAgAEAAAAAAAFAAkAAgAEAAAAAAAEAAkAAgAEAAAAAAADAAkAAgAEAAAAAAACAAkAAgAEAAAAAAABAAkAAgAEAAAAAAAAAAkAAgAEAAAAAAAAAAgAAgAEAAAAAAABAAgAAgAEAAAAAAACAAgAAgAEAAAAAAADAAgAAgAEAAAAAAAEAAgAAgAEAAAAAAAFAAgAAgAEAAAAAAAGAAgAAgAEAAAAAAAAAAAAAgAEAAAAAAAAAAEAAgAEAAAAAAAAAAIAAgAEAAAAAAAAAAMAAgAEAAAAAAAAAAQAAgAEAAAAAAAAAAUAAgAEAAAAAAAAAAYAAgAEAAAAAAAAAAcAAgAEAAAAAAABAAAAAgAEAAAAAAABAAEAAgAEAAAAAAABAAIAAgAEAAAAAAABAAMAAgAEAAAAAAABAAQAAgAEAAAAAAABAAUAAgAEAAAAAAABAAYAAgAEAAAAAAABAAcAAgAEAAAAAAACAAAAAgAEAAAAAAACAAEAAgAEAAAAAAACAAIAAgAEAAAAAAACAAMAAgAEAAAAAAACAAQAAgAEAAAAAAACAAUAAgAEAAAAAAACAAYAAgAEAAAAAAACAAcAAgAEAAAAAAADAAAAAgAEAAAAAAADAAEAAgAEAAAAAAADAAIAAgAEAAAAAAADAAMAAgAEAAAAAAADAAQAAgAEAAAAAAADAAUAAgAEAAAAAAADAAYAAgAEAAAAAAADAAcAAgAEAAAAAAAEAAAAAgAEAAAAAAAEAAEAAgAEAAAAAAAEAAIAAgAEAAAAAAAEAAMAAgAEAAAAAAAEAAQAAgAEAAAAAAAEAAUAAgAEAAAAAAAEAAYAAgAEAAAAAAAEAAcAAgAEAAAAAAAFAAAAAgAEAAAAAAAFAAEAAgAEAAAAAAAFAAIAAgAEAAAAAAAFAAMAAgAEAAAAAAAFAAQAAgAEAAAAAAAFAAUAAgAEAAAAAAAFAAYAAgAEAAAAAAAFAAcAAgAEAAAAAAAGAAAAAgAEAAAAAAAGAAEAAgAEAAAAAAAGAAIAAgAEAAAAAAAGAAMAAgAEAAAAAAAGAAQAAgAEAAAAAAAGAAUAAgAEAAAAAAAGAAYAAgAEAAAAAAAGAAcAAgAEAAAAAAA=")
+tile_set = ExtResource("2_c63es")
+
+[node name="OnWallLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAAMAAgAGAAEAAAABAAIAAgAFAAEAAAABAAEAAgAFAAAAAAACAAEAAgAGAAAAAAADAAEAAgAGAAAAAAAEAAEAAgAHAAAAAAAEAAIAAgAFAAIAAAA=")
+tile_set = ExtResource("2_c63es")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAFAAEAAgAAAAIAAAAFAAMAAgAAAAAAAAADAAIAAgAAAAMAAAAFAAQAAgAAAAIAAAAGAAYAAgAAAAEAAAAAAAEAAgACAAEAAAAAAAIAAgACAAEAAAAAAAMAAgACAAEAAAAAAAQAAgADAAQAAAAAAAUAAgACAAEAAAAAAAYAAgACAAEAAAAAAAcAAgACAAEAAAAAAAgAAgACAAEAAAAAAAkAAgABAAUAAAAGAAkAAgACAAUAAAAGAAgAAgAAAAEAAAAFAAkAAgABAAAAAAAEAAkAAgABAAAAAAADAAkAAgABAAAAAAACAAkAAgABAAAAAAABAAkAAgABAAAAAAAGAAEAAgABAAIAAAAGAAQAAgACAAQAAAAGAAcAAgAAAAEAAAAGAAUAAgAAAAEAAAABAAQAAgACAAYAAAADAAMAAgAAAAQAAAADAAYAAgABAAYAAAACAAYAAgAAAAYAAAAEAAYAAgACAAYAAAADAAQAAgAAAAUAAAAGAAMAAgABAAAAAAAAAAAAAgABAAQAAAABAAAAAgABAAIAAAACAAAAAgABAAIAAAADAAAAAgABAAIAAAAEAAAAAgABAAIAAAAFAAAAAgACAAQAAAAGAAAAAgABAAEAAAA=")
+tile_set = ExtResource("2_c63es")
+use_kinematic_bodies = true
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="."]
+z_index = 5
+tile_map_data = PackedByteArray("AAAGAAEAAgAIAAgAAAAGAAIAAgAIAAgAAAAGAAMAAgAIAAgAAAA=")
+tile_set = ExtResource("2_c63es")
+use_kinematic_bodies = true
+
+[node name="Player" parent="." instance=ExtResource("2_k823q")]
+position = Vector2(40, 136)
+
+[node name="MovingBlock" parent="." instance=ExtResource("3_20hnr")]
+position = Vector2(40, 88)
+
+[node name="MovingBlock2" parent="." instance=ExtResource("3_20hnr")]
+position = Vector2(56, 88)
+
+[node name="Button" parent="." instance=ExtResource("5_65kfn")]
+position = Vector2(24, 56)
+
+[node name="Door" parent="." instance=ExtResource("6_hq7lw")]
+position = Vector2(88, 40)
+
+[node name="WinTile" parent="." node_paths=PackedStringArray("player_move_position") instance=ExtResource("6_tib35")]
+position = Vector2(104, 40)
+player_move_position = NodePath("Marker2D")
+
+[node name="Marker2D" type="Marker2D" parent="WinTile"]
+position = Vector2(16, 0)
+gizmo_extents = 8.0
+
+[connection signal="pressed" from="Button" to="Door" method="open"]
+[connection signal="unpessed" from="Button" to="Door" method="close"]
+[connection signal="next_level" from="WinTile" to="." method="on_next_level"]

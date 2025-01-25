@@ -13,14 +13,15 @@ func next_level():
 	if(new_index == levels.size()):
 		main_scene.back_to_main_menu();
 	else:
+		_safe_close_level();
 		select_level(new_index);
 
 func select_level(index: int):
 	current_level_index = index;
+	_safe_close_level()
 	set_level(levels[index])
 
 func set_level(level: PackedScene) -> void:
-	_close_level_if_present();
 	current_level = level.instantiate();
 	add_child(current_level)
 	size = current_level.size * Body.CELL_SIZE;
@@ -28,13 +29,18 @@ func set_level(level: PackedScene) -> void:
 
 func reset_level():
 	if current_level_index < 0: return;
+	_force_close_level();
 	set_level(levels[current_level_index]);
 
 func close_level():
-	_close_level_if_present();
+	_safe_close_level();
 	current_level = null;
 	current_level_index = -1;
 
-func _close_level_if_present():
-	if current_level:
+func _force_close_level():
+	if is_instance_valid(current_level):
+		current_level.free();
+		
+func _safe_close_level():
+	if is_instance_valid(current_level):
 		current_level.queue_free();

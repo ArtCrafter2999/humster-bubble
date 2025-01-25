@@ -1,7 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1rk1hpmb8a61"]
+[gd_scene load_steps=16 format=3 uid="uid://c1rk1hpmb8a61"]
 
 [ext_resource type="Script" path="res://bubble/bubble.gd" id="1_wf65x"]
 [ext_resource type="Texture2D" uid="uid://dunjdo8cups1t" path="res://bubble/buble_24x24.png" id="2_gfb3d"]
+[ext_resource type="AudioStream" uid="uid://c3o3s7tcqcqmt" path="res://audio/bubble_pop_1.wav" id="3_ak4a1"]
+[ext_resource type="AudioStream" uid="uid://5ii4fyhiqe5i" path="res://audio/bubble_pop_2.wav" id="4_j472o"]
+[ext_resource type="AudioStream" uid="uid://bcs1ttecqlire" path="res://audio/bubble_pop_3.wav" id="5_t4a4u"]
+[ext_resource type="AudioStream" uid="uid://dyoax56saskmp" path="res://audio/bubble_pop_4.wav" id="6_4ww5e"]
+[ext_resource type="Script" path="res://bubble/last_pop.gd" id="7_crsvw"]
 
 [sub_resource type="Animation" id="Animation_5yl5b"]
 length = 0.001
@@ -53,6 +58,13 @@ size = Vector2(15, 15)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6meyk"]
 size = Vector2(15.8, 15.8)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_3e1c5"]
+streams_count = 4
+stream_0/stream = ExtResource("3_ak4a1")
+stream_1/stream = ExtResource("4_j472o")
+stream_2/stream = ExtResource("5_t4a4u")
+stream_3/stream = ExtResource("6_4ww5e")
+
 [node name="Bubble" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 4
@@ -88,6 +100,16 @@ monitorable = false
 shape = SubResource("RectangleShape2D_rpq25")
 debug_color = Color(1, 1, 1, 0.168627)
 
+[node name="PlayerDetector" type="Area2D" parent="."]
+position = Vector2(0, -16)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+shape = SubResource("RectangleShape2D_rpq25")
+debug_color = Color(1, 1, 1, 0.168627)
+
 [node name="BubleDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 4
@@ -96,6 +118,10 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BubleDetector"]
 shape = SubResource("RectangleShape2D_6meyk")
 debug_color = Color(1, 1, 1, 0.168627)
+
+[node name="PopAudio" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_3e1c5")
+script = ExtResource("7_crsvw")
 
 [connection signal="body_entered" from="ObjectDetector" to="." method="_on_object_detector_body_entered"]
 [connection signal="body_entered" from="ObstacleDetector" to="." method="_on_detector_body_entered"]

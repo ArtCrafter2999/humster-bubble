@@ -1,13 +1,47 @@
-[gd_scene load_steps=20 format=3 uid="uid://dy86cfp21fglb"]
+[gd_scene load_steps=47 format=3 uid="uid://dy86cfp21fglb"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_ubecj"]
 [ext_resource type="Script" path="res://state_machine/state_machine.gd" id="2_3ibd4"]
 [ext_resource type="Script" path="res://player/states/move_state.gd" id="3_rslrj"]
+[ext_resource type="AudioStream" uid="uid://mknwc5tfr7tf" path="res://audio/land_1.wav" id="4_ggwiq"]
 [ext_resource type="Script" path="res://player/states/before_push_state.gd" id="4_n2g12"]
 [ext_resource type="Script" path="res://player/states/push_state.gd" id="4_roucd"]
+[ext_resource type="AudioStream" uid="uid://dss0cwkqidlcl" path="res://audio/land_2.wav" id="5_ra6rs"]
 [ext_resource type="Script" path="res://player/states/create_bubble_state.gd" id="6_djf1f"]
+[ext_resource type="AudioStream" uid="uid://cm6pgu07vr2ko" path="res://audio/land_3.wav" id="6_rpk4v"]
+[ext_resource type="AudioStream" uid="uid://bfgkvioayx4wi" path="res://audio/land_4.wav" id="7_4tcsx"]
 [ext_resource type="Script" path="res://player/states/inside_bubble_state.gd" id="7_kuj8y"]
 [ext_resource type="Texture2D" uid="uid://dsqefgr1w124e" path="res://player/charecter-Sheet.png" id="8_2vylg"]
+[ext_resource type="AudioStream" uid="uid://ns6bss5seujx" path="res://audio/land_5.wav" id="8_njk6w"]
+[ext_resource type="AudioStream" uid="uid://ex47ji05iei" path="res://audio/jump_up.wav" id="9_h0duq"]
+[ext_resource type="AudioStream" uid="uid://cc11one26lq1t" path="res://audio/land_6.wav" id="9_pbuwh"]
+[ext_resource type="AudioStream" uid="uid://dgmpvbko5uepm" path="res://audio/fall.wav" id="10_i7gq6"]
+[ext_resource type="AudioStream" uid="uid://m5tq16je4exr" path="res://audio/walk_1.wav" id="17_lt21x"]
+[ext_resource type="AudioStream" uid="uid://b3jxkr8gpwtlu" path="res://audio/walk_2.wav" id="18_fjj6g"]
+[ext_resource type="AudioStream" uid="uid://dwaljq2hp3lro" path="res://audio/walk_11.wav" id="19_ri5ev"]
+[ext_resource type="AudioStream" uid="uid://bdwx4dprogye1" path="res://audio/walk_12.wav" id="20_sy6ic"]
+[ext_resource type="AudioStream" uid="uid://bm3uj05en5rms" path="res://audio/walk_13.wav" id="21_5s04o"]
+[ext_resource type="AudioStream" uid="uid://1yfuvs7lj72b" path="res://audio/walk_14.wav" id="22_0l1jn"]
+[ext_resource type="AudioStream" uid="uid://ls3kgw316om4" path="res://audio/walk_15.wav" id="23_wx538"]
+[ext_resource type="AudioStream" uid="uid://bkdxf1rvlmamx" path="res://audio/walk_16.wav" id="24_2mwy0"]
+[ext_resource type="AudioStream" uid="uid://dh2bjfnl0higq" path="res://audio/walk_3.wav" id="25_50iig"]
+[ext_resource type="AudioStream" uid="uid://dnnshityjiqsb" path="res://audio/walk_4.wav" id="26_70h1j"]
+[ext_resource type="AudioStream" uid="uid://dee0y0pv8irog" path="res://audio/walk_5.wav" id="27_ofypj"]
+[ext_resource type="AudioStream" uid="uid://b5f54mkajgo0n" path="res://audio/walk_6.wav" id="28_7m2qc"]
+[ext_resource type="AudioStream" uid="uid://cdcp71ryjdp2j" path="res://audio/walk_7.wav" id="29_6l7fw"]
+[ext_resource type="AudioStream" uid="uid://bdrvygp0nx64t" path="res://audio/walk_8.wav" id="30_0jr1a"]
+[ext_resource type="AudioStream" uid="uid://bh4vynns270h6" path="res://audio/walk_9.wav" id="31_6u8fx"]
+[ext_resource type="AudioStream" uid="uid://hwmus1s1mxmb" path="res://audio/bubble_blow.wav" id="31_go73i"]
+[ext_resource type="AudioStream" uid="uid://b5j3hd3pgcv0o" path="res://audio/walk_10.wav" id="32_jrbd6"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hgjhp"]
+streams_count = 6
+stream_0/stream = ExtResource("4_ggwiq")
+stream_1/stream = ExtResource("5_ra6rs")
+stream_2/stream = ExtResource("6_rpk4v")
+stream_3/stream = ExtResource("7_4tcsx")
+stream_4/stream = ExtResource("8_njk6w")
+stream_5/stream = ExtResource("9_pbuwh")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_386yk"]
 size = Vector2(15.5, 15.5)
@@ -24,7 +58,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Vector2i(0, 4)]
+"values": [Vector2i(0, 3)]
 }
 
 [sub_resource type="Animation" id="Animation_gudn2"]
@@ -43,6 +77,20 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/create_bubble")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_4f3h7"]
 resource_name = "fall"
@@ -59,6 +107,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector2i(2, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/FallAudio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_tjlr1"]
@@ -81,8 +143,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_jk0il"]
 resource_name = "jump"
-length = 1.0001
-step = 1.0
+length = 0.333367
+step = 0.333333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -90,16 +152,30 @@ tracks/0/path = NodePath("Sprite:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 0.333333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [Vector2i(0, 1), Vector2i(1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/JumpAudio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_um8sr"]
 resource_name = "walk"
 length = 0.250008
-loop_mode = 2
+loop_mode = 1
 step = 0.0833333
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -113,6 +189,23 @@ tracks/0/keys = {
 "update": 1,
 "values": [Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2), Vector2i(3, 2)]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/walk")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}, {
+"args": [0.0],
+"method": &"play"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_w85h5"]
 _data = {
@@ -123,6 +216,25 @@ _data = {
 "jump": SubResource("Animation_jk0il"),
 "walk": SubResource("Animation_um8sr")
 }
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hv8f7"]
+streams_count = 16
+stream_0/stream = ExtResource("17_lt21x")
+stream_1/stream = ExtResource("18_fjj6g")
+stream_2/stream = ExtResource("25_50iig")
+stream_3/stream = ExtResource("26_70h1j")
+stream_4/stream = ExtResource("27_ofypj")
+stream_5/stream = ExtResource("28_7m2qc")
+stream_6/stream = ExtResource("29_6l7fw")
+stream_7/stream = ExtResource("30_0jr1a")
+stream_8/stream = ExtResource("31_6u8fx")
+stream_9/stream = ExtResource("32_jrbd6")
+stream_10/stream = ExtResource("19_ri5ev")
+stream_11/stream = ExtResource("20_sy6ic")
+stream_12/stream = ExtResource("21_5s04o")
+stream_13/stream = ExtResource("22_0l1jn")
+stream_14/stream = ExtResource("23_wx538")
+stream_15/stream = ExtResource("24_2mwy0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7lsg"]
 size = Vector2(8, 2)
@@ -135,7 +247,7 @@ size = Vector2(15, 2)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 3
+collision_mask = 11
 floor_max_angle = 0.0
 script = ExtResource("1_ubecj")
 metadata/_edit_group_ = true
@@ -149,13 +261,16 @@ script = ExtResource("3_rslrj")
 push_state = NodePath("../BeforePushState")
 buble_state = NodePath("../CreateBubbleState")
 
+[node name="LandAudio" type="AudioStreamPlayer" parent="StateMachine/MoveState"]
+stream = SubResource("AudioStreamRandomizer_hgjhp")
+
 [node name="BeforePushState" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("cancel_state", "push_state")]
 script = ExtResource("4_n2g12")
 cancel_state = NodePath("../MoveState")
 push_state = NodePath("../PushState")
 
 [node name="PushTimer" type="Timer" parent="StateMachine/BeforePushState"]
-wait_time = 0.1
+wait_time = 0.15
 one_shot = true
 
 [node name="PushState" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("after_push_state")]
@@ -193,12 +308,25 @@ one_shot = true
 texture = ExtResource("8_2vylg")
 hframes = 4
 vframes = 4
+frame = 12
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_w85h5")
 }
 autoplay = "idle"
+
+[node name="walk" type="AudioStreamPlayer" parent="AnimationPlayer"]
+stream = SubResource("AudioStreamRandomizer_hv8f7")
+
+[node name="create_bubble" type="AudioStreamPlayer" parent="AnimationPlayer"]
+stream = ExtResource("31_go73i")
+
+[node name="JumpAudio" type="AudioStreamPlayer" parent="AnimationPlayer"]
+stream = ExtResource("9_h0duq")
+
+[node name="FallAudio" type="AudioStreamPlayer" parent="AnimationPlayer"]
+stream = ExtResource("10_i7gq6")
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-4, -7.8, -7.8, -6.2, -7.8, 7.2, -7.2, 7.8, 7.2, 7.8, 7.8, 7.2, 7.8, -6.2, 4, -7.8)
@@ -236,7 +364,7 @@ debug_color = Color(0.739703, 0.466833, 0, 0.42)
 [node name="FloorDetector" type="Area2D" parent="."]
 position = Vector2(0, 8.88)
 collision_layer = 0
-collision_mask = 3
+collision_mask = 11
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FloorDetector"]

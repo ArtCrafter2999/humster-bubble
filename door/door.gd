@@ -1,37 +1,32 @@
-extends Area2D
+extends StaticBody2D
 
-var is_oppened = false;
-var _is_in_door = false;
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var enter_sprite: Sprite2D = $EnterSprite
-@onready var collision: CollisionShape2D = $Collision
+@export var is_oppened = false;
+var _just_entered = false;
+@onready var open_sprite: Sprite2D = $OpenSprite
+@onready var close_sprite: Sprite2D = $CloseSprite
+@onready var open_audio: AudioStreamPlayer = $OpenAudio
+@onready var close_audio: AudioStreamPlayer = $CloseAudio
 
 func _ready() -> void:
-	animation_player.play("default");
-	animation_player.speed_scale = 0
+	_just_entered = true;
+	if is_oppened:
+		open();
+	else:
+		close();
+	_just_entered = false;
 
 func open():
 	is_oppened = true;
-	animation_player.play("default");
-	animation_player.speed_scale = 1;
-	collision.disabled = false;
+	open_sprite.visible = true;
+	close_sprite.visible = false;
+	collision_layer = 0;
+	if not _just_entered:
+		open_audio.play()
 
 func close():
 	is_oppened = false;
-	_is_in_door = false;
-	animation_player.play("default");
-	animation_player.speed_scale = -1;
-	collision.disabled = true;
-	enter_sprite.visible = false;
-
-
-func _on_body_entered(body: Node2D) -> void:
-	if is_oppened and body is Player:
-		_is_in_door = true;
-		enter_sprite.visible = true;
-		
-
-func _on_body_exited(body: Node2D) -> void:
-	if _is_in_door and body is Player:
-		_is_in_door = false;
-		enter_sprite.visible = false;
+	open_sprite.visible = false;
+	close_sprite.visible = true;
+	collision_layer = 7;
+	if not _just_entered:
+		close_audio.play()

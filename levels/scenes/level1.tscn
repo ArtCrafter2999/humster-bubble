@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=4 uid="uid://bax71luhrk8ce"]
+
+[ext_resource type="Script" path="res://levels/level.gd" id="1_wko7y"]
+[ext_resource type="TileSet" uid="uid://nh2khwyrlcku" path="res://levels/tileset.tres" id="2_2ickw"]
+[ext_resource type="PackedScene" uid="uid://dy86cfp21fglb" path="res://player/player.tscn" id="3_cynia"]
+[ext_resource type="PackedScene" uid="uid://bccly22bg37pr" path="res://moving_block/moving_block.tscn" id="4_ea7yx"]
+[ext_resource type="PackedScene" uid="uid://b1whs6ffrqdwp" path="res://button/button.tscn" id="5_go0ao"]
+[ext_resource type="PackedScene" uid="uid://bre8is2i1h5cy" path="res://door/door.tscn" id="6_hsqpm"]
+[ext_resource type="PackedScene" uid="uid://bafnpcqga5xuu" path="res://levels/win_tile.tscn" id="7_80lf7"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_wko7y")
+size = Vector2i(8, 10)
+
+[node name="BgTilemaps" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAGAAkAAgAEAAAAAAAFAAkAAgAEAAAAAAAEAAkAAgAEAAAAAAADAAkAAgAEAAAAAAACAAkAAgAEAAAAAAABAAkAAgAEAAAAAAAAAAkAAgAEAAAAAAAAAAgAAgAEAAAAAAABAAgAAgAEAAAAAAACAAgAAgAEAAAAAAADAAgAAgAEAAAAAAAEAAgAAgAEAAAAAAAFAAgAAgAEAAAAAAAGAAgAAgAEAAAAAAAAAAAAAgAEAAAAAAAAAAEAAgAEAAAAAAAAAAIAAgAEAAAAAAAAAAMAAgAEAAAAAAAAAAQAAgAEAAAAAAAAAAUAAgAEAAAAAAAAAAYAAgAEAAAAAAAAAAcAAgAEAAAAAAABAAAAAgAEAAAAAAABAAEAAgAEAAAAAAABAAIAAgAEAAAAAAABAAMAAgAEAAAAAAABAAQAAgAEAAAAAAABAAUAAgAEAAAAAAABAAYAAgAEAAAAAAABAAcAAgAEAAAAAAACAAAAAgAEAAAAAAACAAEAAgAEAAAAAAACAAIAAgAEAAAAAAACAAMAAgAEAAAAAAACAAQAAgAEAAAAAAACAAUAAgAEAAAAAAACAAYAAgAEAAAAAAACAAcAAgAEAAAAAAADAAAAAgAEAAAAAAADAAEAAgAEAAAAAAADAAIAAgAEAAAAAAADAAMAAgAEAAAAAAADAAQAAgAEAAAAAAADAAUAAgAEAAAAAAADAAYAAgAEAAAAAAADAAcAAgAEAAAAAAAEAAAAAgAEAAAAAAAEAAEAAgAEAAAAAAAEAAIAAgAEAAAAAAAEAAMAAgAEAAAAAAAEAAQAAgAEAAAAAAAEAAUAAgAEAAAAAAAEAAYAAgAEAAAAAAAEAAcAAgAEAAAAAAAFAAAAAgAEAAAAAAAFAAEAAgAEAAAAAAAFAAIAAgAEAAAAAAAFAAMAAgAEAAAAAAAFAAQAAgAEAAAAAAAFAAUAAgAEAAAAAAAFAAYAAgAEAAAAAAAFAAcAAgAEAAAAAAAGAAAAAgAEAAAAAAAGAAEAAgAEAAAAAAAGAAIAAgAEAAAAAAAGAAMAAgAEAAAAAAAGAAQAAgAEAAAAAAAGAAUAAgAEAAAAAAAGAAYAAgAEAAAAAAAGAAcAAgAEAAAAAAAHAAkAAgAEAAAAAAAHAAgAAgAEAAAAAAAHAAcAAgAEAAAAAAAHAAYAAgAEAAAAAAAHAAUAAgAEAAAAAAAHAAQAAgAEAAAAAAAHAAMAAgAEAAAAAAAHAAIAAgAEAAAAAAAHAAEAAgAEAAAAAAAHAAAAAgAEAAAAAAA=")
+tile_set = ExtResource("2_2ickw")
+
+[node name="OnWallLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAADAAUAAgAGAAEAAAAEAAUAAgAGAAAAAAAFAAUAAgAGAAIAAAAFAAQAAgAFAAEAAAAFAAMAAgAFAAEAAAAFAAIAAgAFAAAAAAA=")
+tile_set = ExtResource("2_2ickw")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAgABAAEAAAABAAAAAgABAAEAAAADAAAAAgABAAEAAAACAAAAAgABAAEAAAAEAAAAAgABAAEAAAAFAAAAAgABAAEAAAAFAAEAAgABAAIAAAAGAAYAAgACAAUAAAAAAAEAAgABAAEAAAAAAAIAAgABAAQAAAAAAAMAAgACAAEAAAAAAAQAAgACAAEAAAAAAAUAAgACAAEAAAAAAAYAAgACAAEAAAAAAAcAAgACAAEAAAAAAAgAAgACAAEAAAAAAAkAAgABAAUAAAAGAAkAAgABAAEAAAAGAAgAAgABAAEAAAAFAAkAAgACAAUAAAAEAAkAAgABAAAAAAADAAkAAgABAAAAAAACAAkAAgABAAAAAAABAAkAAgABAAAAAAAGAAAAAgABAAEAAAAGAAEAAgABAAIAAAAGAAQAAgAAAAEAAAAGAAcAAgABAAEAAAAGAAUAAgAAAAEAAAACAAYAAgAAAAkAAAAGAAMAAgAAAAAAAAACAAUAAgAAAAMAAAADAAYAAgACAAYAAAAEAAQAAgABAAMAAAAFAAYAAgAAAAAAAAAFAAcAAgAAAAEAAAAFAAgAAgAAAAEAAAAHAAMAAgABAAAAAAAHAAEAAgABAAIAAAAEAAEAAgABAAIAAAADAAEAAgABAAQAAAADAAIAAgACAAIAAAACAAIAAgABAAIAAAABAAIAAgABAAIAAAACAAEAAgABAAEAAAABAAEAAgABAAEAAAAHAAQAAgABAAEAAAAHAAUAAgABAAEAAAAHAAYAAgABAAEAAAAHAAcAAgABAAEAAAAHAAgAAgABAAEAAAAHAAkAAgABAAEAAAAHAAAAAgABAAEAAAAEAAYAAgADAAEAAAA=")
+tile_set = ExtResource("2_2ickw")
+use_kinematic_bodies = true
+
+[node name="OnTopLayer" type="TileMapLayer" parent="."]
+z_index = 5
+tile_map_data = PackedByteArray("AAAHAAIAAgAIAAgAAAAHAAMAAgAIAAgAAAAHAAEAAgAIAAgAAAA=")
+tile_set = ExtResource("2_2ickw")
+use_kinematic_bodies = true
+
+[node name="Player" parent="." instance=ExtResource("3_cynia")]
+position = Vector2(56, 136)
+
+[node name="MovingBlock" parent="." instance=ExtResource("4_ea7yx")]
+position = Vector2(40, 136)
+
+[node name="Button" parent="." instance=ExtResource("5_go0ao")]
+position = Vector2(56, 88)
+
+[node name="Door" parent="." instance=ExtResource("6_hsqpm")]
+position = Vector2(104, 40)
+
+[node name="WinTile" parent="." node_paths=PackedStringArray("player_move_position") instance=ExtResource("7_80lf7")]
+position = Vector2(120, 40)
+player_move_position = NodePath("Marker2D")
+
+[node name="Marker2D" type="Marker2D" parent="WinTile"]
+position = Vector2(16, 0)
+gizmo_extents = 8.0
+
+[connection signal="pressed" from="Button" to="Door" method="open"]
+[connection signal="unpessed" from="Button" to="Door" method="close"]
+[connection signal="next_level" from="WinTile" to="." method="on_next_level"]

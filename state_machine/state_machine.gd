@@ -35,5 +35,4 @@ func change_state(new_state: StateBase, context: Dictionary = {}):
 	if state:
 		await state._state_exit_c(context);
 	state = new_state
-	print(state)
 	state.safe_enter(self, context);
