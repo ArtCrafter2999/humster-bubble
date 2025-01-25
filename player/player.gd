@@ -4,6 +4,7 @@ class_name Player
 @onready var sprite: Sprite2D = $Sprite
 @onready var state_machine: StateMachine = $StateMachine
 @onready var floor_detector: Area2D = $FloorDetector
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var direction: Vector2 = Vector2.RIGHT
 var parent: Node;
@@ -21,3 +22,8 @@ func fall(delta: float):
 		if is_falling:
 			velocity += get_gravity() * delta;
 	return is_falling
+
+func disable_state_machine():
+	animation_player.play("walk");
+	state_machine.state = null;
+	state_machine.visible = false
