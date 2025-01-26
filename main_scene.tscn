@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d35mkt151iibu"]
+[gd_scene load_steps=17 format=3 uid="uid://d35mkt151iibu"]
 
 [ext_resource type="Script" path="res://levels/level_manager.gd" id="1_i7j4s"]
 [ext_resource type="PackedScene" uid="uid://bjpjcc0s4kjoa" path="res://levels/scenes/level3.tscn" id="1_s122t"]
@@ -6,13 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://bax71luhrk8ce" path="res://levels/scenes/level1.tscn" id="3_tf0hy"]
 [ext_resource type="PackedScene" uid="uid://cn44y0sbspt2t" path="res://levels/scenes/level2.tscn" id="4_30tjv"]
 [ext_resource type="PackedScene" uid="uid://dwloifv74stwq" path="res://levels/scenes/level4.tscn" id="6_w4pdh"]
-[ext_resource type="PackedScene" uid="uid://dw2nekikss3s6" path="res://levels/scenes/level5.tscn" id="7_nhguj"]
 [ext_resource type="AudioStream" uid="uid://crjd4ytlg8vtp" path="res://audio/level_end1.wav" id="8_6k6r2"]
+[ext_resource type="PackedScene" uid="uid://ji8x54em5ssj" path="res://levels/scenes/level5.tscn" id="8_8kyv6"]
+[ext_resource type="PackedScene" uid="uid://dw2nekikss3s6" path="res://levels/scenes/level6.tscn" id="8_av2si"]
 [ext_resource type="AudioStream" uid="uid://dli6lr14bjuxy" path="res://audio/room_tone.wav" id="9_jppjj"]
 [ext_resource type="AudioStream" uid="uid://bunj810r7u3s4" path="res://audio/level_end2.wav" id="9_xdsnm"]
 [ext_resource type="AudioStream" uid="uid://lln0ubt08bun" path="res://audio/level_end3.wav" id="10_tnox6"]
 [ext_resource type="AudioStream" uid="uid://r3fn6ppmiwst" path="res://audio/level_restart.wav" id="11_o8h0i"]
-[ext_resource type="PackedScene" uid="uid://cjb3aecgp5pw3" path="res://menu/level_1.tscn" id="12_khnlm"]
+[ext_resource type="AudioStream" uid="uid://1n5k7xno85ej" path="res://audio/main music.wav" id="14_wveb1"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tsl8b"]
 streams_count = 3
@@ -39,7 +40,7 @@ transparent_bg = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(112, 160)
 script = ExtResource("1_i7j4s")
-levels = Array[PackedScene]([ExtResource("3_tf0hy"), ExtResource("4_30tjv"), ExtResource("1_s122t"), ExtResource("6_w4pdh"), ExtResource("7_nhguj")])
+levels = Array[PackedScene]([ExtResource("3_tf0hy"), ExtResource("4_30tjv"), ExtResource("1_s122t"), ExtResource("6_w4pdh"), ExtResource("8_8kyv6"), ExtResource("8_av2si")])
 
 [node name="LevelEndAudio" type="AudioStreamPlayer" parent="LevelManager"]
 stream = SubResource("AudioStreamRandomizer_tsl8b")
@@ -72,7 +73,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemList" type="GridContainer" parent="MainMenu"]
+[node name="LevelList" type="GridContainer" parent="MainMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -90,29 +91,9 @@ theme_override_constants/v_separation = 100
 columns = 4
 metadata/_edit_lock_ = true
 
-[node name="Level1" parent="MainMenu/ItemList" node_paths=PackedStringArray("main_scene") instance=ExtResource("12_khnlm")]
-layout_mode = 2
-main_scene = NodePath("../../..")
-
-[node name="Level2" parent="MainMenu/ItemList" node_paths=PackedStringArray("main_scene") instance=ExtResource("12_khnlm")]
-layout_mode = 2
-level_index = 1
-main_scene = NodePath("../../..")
-
-[node name="Level3" parent="MainMenu/ItemList" node_paths=PackedStringArray("main_scene") instance=ExtResource("12_khnlm")]
-layout_mode = 2
-level_index = 2
-main_scene = NodePath("../../..")
-
-[node name="Level4" parent="MainMenu/ItemList" node_paths=PackedStringArray("main_scene") instance=ExtResource("12_khnlm")]
-layout_mode = 2
-level_index = 3
-main_scene = NodePath("../../..")
-
-[node name="Level5" parent="MainMenu/ItemList" node_paths=PackedStringArray("main_scene") instance=ExtResource("12_khnlm")]
-layout_mode = 2
-level_index = 4
-main_scene = NodePath("../../..")
-
 [node name="RoomToneAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_jppjj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_wveb1")
+autoplay = true

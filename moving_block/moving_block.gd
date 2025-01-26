@@ -20,7 +20,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var is_falling = fall(delta)
 	if not is_falling and _prev_falling and not _just_enter:
-		drop_audio.play();
+			drop_audio.play();
 	_prev_falling = is_falling
 	move_and_slide()
 

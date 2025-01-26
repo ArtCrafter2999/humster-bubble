@@ -1,4 +1,5 @@
 extends Button
+class_name LevelButton
 
 @export var level_index: int = 0:
 	get:

@@ -7,8 +7,16 @@ var body_inside: Body
 var _body_parent: Node
 var _save_layer: int
 var _save_mask: int
-@onready var player_detector: Area2D = $PlayerDetector
 @onready var pop_audio: AudioStreamPlayer = $PopAudio
+@onready var on_top_object_detector: Area2D = $OnTopObjectDetector
+
+func check_on_ceiling():
+	var value = super.is_on_ceiling();
+	if not value:
+		value = _detect_body_above();
+	if find_children("*", "Player", false, false):
+		print(value);
+	return value;
 
 func _ready() -> void:
 	pop_audio.play();
@@ -25,17 +33,17 @@ func _ready() -> void:
 	
 
 func _physics_process(delta: float) -> void:
-	if _detect_player_above(): return;
 	if body_inside:
+		if _detect_body_above(): return;
 		velocity = -get_gravity() * delta * INSIDE_FLOATING_MODIFIER
-		if is_on_ceiling() and body_inside.velocity:
+		if check_on_ceiling() and body_inside.velocity:
 			pop();
 	else: 
 		velocity = -get_gravity() * delta * FLOATING_MODIFIER
 	move_and_slide()
 
 func _process(delta: float) -> void:
-	if body_inside and not is_on_ceiling():
+	if body_inside and not check_on_ceiling():
 		_fix_body();
 
 func _fix_body():
@@ -76,5 +84,5 @@ func _on_detector_body_entered(other: Node2D) -> void:
 		if not body_inside:
 			pop();
 
-func _detect_player_above():
-	return player_detector.get_overlapping_bodies().filter(func(body): return body is Player)
+func _detect_body_above():
+	return on_top_object_detector.get_overlapping_bodies().filter(func(body): return body is Body)

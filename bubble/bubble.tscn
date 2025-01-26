@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c1rk1hpmb8a61"]
+[gd_scene load_steps=17 format=3 uid="uid://c1rk1hpmb8a61"]
 
 [ext_resource type="Script" path="res://bubble/bubble.gd" id="1_wf65x"]
 [ext_resource type="Texture2D" uid="uid://dunjdo8cups1t" path="res://bubble/buble_24x24.png" id="2_gfb3d"]
@@ -55,6 +55,9 @@ size = Vector2(1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpq25"]
 size = Vector2(15, 15)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y3lpb"]
+size = Vector2(15, 0)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6meyk"]
 size = Vector2(15.8, 15.8)
 
@@ -100,14 +103,15 @@ monitorable = false
 shape = SubResource("RectangleShape2D_rpq25")
 debug_color = Color(1, 1, 1, 0.168627)
 
-[node name="PlayerDetector" type="Area2D" parent="."]
+[node name="OnTopObjectDetector" type="Area2D" parent="."]
 position = Vector2(0, -16)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
-shape = SubResource("RectangleShape2D_rpq25")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OnTopObjectDetector"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_y3lpb")
 debug_color = Color(1, 1, 1, 0.168627)
 
 [node name="BubleDetector" type="Area2D" parent="."]

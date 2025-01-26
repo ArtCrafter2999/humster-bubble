@@ -1,6 +1,7 @@
 extends SubViewport
 class_name LevelManager
 
+const LEVEL_BUTTON = preload("res://menu/level_button.tscn")
 @export var levels: Array[PackedScene]
 var current_level: Level;
 var current_level_index: int = -1;
@@ -9,6 +10,14 @@ var current_level_index: int = -1;
 @onready var main_scene: MainScene = $".."
 @onready var level_end_audio: AudioStreamPlayer = $LevelEndAudio
 @onready var level_restart_audio: AudioStreamPlayer = $LevelRestartAudio
+@onready var level_list: GridContainer = $"../MainMenu/LevelList"
+
+func _ready() -> void:
+	for i in levels.size():
+		var button: LevelButton = LEVEL_BUTTON.instantiate();
+		button.level_index = i;
+		button.main_scene = main_scene;
+		level_list.add_child(button);
 
 func next_level():
 	var new_index = current_level_index + 1;
