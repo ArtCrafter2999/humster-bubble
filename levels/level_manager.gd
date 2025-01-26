@@ -7,9 +7,12 @@ var current_level_index: int = -1;
 @onready var game_viewport: SubViewport = $GameViewport
 @onready var levels_parent: Node2D = $"../Levels"
 @onready var main_scene: MainScene = $".."
+@onready var level_end_audio: AudioStreamPlayer = $LevelEndAudio
+@onready var level_restart_audio: AudioStreamPlayer = $LevelRestartAudio
 
 func next_level():
 	var new_index = current_level_index + 1;
+	level_end_audio.play();
 	if(new_index == levels.size()):
 		main_scene.back_to_main_menu();
 	else:
@@ -29,6 +32,7 @@ func set_level(level: PackedScene) -> void:
 
 func reset_level():
 	if current_level_index < 0: return;
+	level_restart_audio.play();
 	_force_close_level();
 	set_level(levels[current_level_index]);
 
